@@ -223,4 +223,11 @@ Time taken for axpy execution: 0.042496 seconds
 ```
 
 > [!TIP]
-> Try submitting multiple jobs with different `nodes`, `ntasks`, `cpus-per-task`. Compare the time to solution between different executions.
+> Try submitting multiple jobs with different `ntasks` and `cpus-per-task`. Compare the time to solution between different executions. Complete the table by recording the time taken for the axpy operation across different vector sizes and parallel configurations.
+> | Vector Size   | Sequential | Hyb-16-1 | Hyb-128-1 | Hyb-256-1 | Hyb-1-16 | Hyb-1-128 | Hyb-2-128 |
+> |---------------|------------|----------|-----------|-----------|----------|-----------|-----------|
+> | 1,000,000     |            |          |           |           |          |           |           |
+> | 10,000,000    |            |          |           |           |          |           |           |
+> | 100,000,000   |            |          |           |           |          |           |           |
+> | 1,000,000,000 |            |          |           |           |          |           |           |
+> | 10,000,000,000|            |          |           |           |          |           |           |
