@@ -183,6 +183,20 @@ The linear combination of vectors, also known as `axpy`, can be written as:
 
 $$y \gets a * x + y$$.
 
-This operation updates each element of vector `y` by scaling the corresponding element of vector `x` by a constant `a`, and adding it to the existing element of `y`. The `axpy` kernel is a simple pointwise operation, which means each computation is independent of the others, making it an ideal starting point for understanding parallelization.
+The `axpy` kernel is a simple pointwise operation, which means each computation is independent of the others, making it an ideal starting point for understanding parallelization. Namely, the operation updates each element of vector `y` by scaling the corresponding element of vector `x` by a constant `a`, and adding it to the existing element of `y`. In more detail,
+  - `n` is the number of elements in the vectors `x` and `y`,
+  - `a` is the scalar value to multiply with vector `x`, 
+  - `x`, `y` are the input vectors.
 
-We will begin by executing a sequential version of `axpy` in C to understand the basic computation before moving to parallel implementations. The example code can be found in this repository, under `hands-on/ex1`.
+#### Exercise: sequential execution of linear combination of vectors
+We will begin by executing a sequential version of `axpy` in C to understand the basic computation before moving to parallel implementations. The example code can be found in this repository: `hands-on/ex1/axpy.c`.
+
+- **Memory allocation**: The code dynamically allocates memory for two vectors, `x` and `y`, each of size `n`.
+- **Initialization**: Both vectors `x` and `y` are initialized with constant values for simplicity, but in practice, these vectors can contain any data.
+- **Output**: The result of the `axpy` operation is stored in vector `y`. For demonstration purposes, the code prints the value of the first element of `y`.
+
+The submit script is prepared to take the size of the vector, `N`, as input parameter. Submit the script as follows:
+
+```bash
+sbatch submit-axpy.sh 100000000
+```
