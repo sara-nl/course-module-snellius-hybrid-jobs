@@ -45,7 +45,8 @@ int main(int argc, char **argv) {
     // Calculate the elapsed time in seconds
     double elapsed_time = (double)(end - start) / CLOCKS_PER_SEC;
 
-    // Print the elapsed time
+    // Print the result and elapsed time
+    printf("y[0] = %f\n", y[0]);
     printf("Time taken for axpy execution: %f seconds\n", elapsed_time);
 
     // Free the allocated memory
