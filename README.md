@@ -189,14 +189,38 @@ The `axpy` kernel is a simple pointwise operation, which means each computation 
   - `x`, `y` are the input vectors.
 
 #### Exercise: sequential execution of linear combination of vectors
-We will begin by executing a sequential version of `axpy` in C to understand the basic computation before moving to parallel implementations. The example code can be found in this repository: `hands-on/ex1/axpy.c`.
 
-- **Memory allocation**: The code dynamically allocates memory for two vectors, `x` and `y`, each of size `n`.
-- **Initialization**: Both vectors `x` and `y` are initialized with constant values for simplicity, but in practice, these vectors can contain any data.
-- **Output**: The result of the `axpy` operation is stored in vector `y`. For demonstration purposes, the code prints the value of the first element of `y`.
-
-The submit script is prepared to take the size of the vector, `N`, as input parameter. Submit the script as follows:
+We will begin by executing a sequential version of `axpy` in C to understand the basic computation before moving to parallel implementations. The example code can be found in this repository: `hands-on/ex1`. The Slurm job script is prepared to take the size of the vector, `N`, as input parameter. Submit the script as follows.
 
 ```bash
-sbatch submit-axpy.sh 100000000
+sbatch submit-axpy.sh <N>
 ```
+
+Example of output:
+
+```bash
+$ cat axpy-8061138.out 
+y[0] = 4.000000
+Time taken for axpy execution: 0.537750 seconds
+```
+
+> [!TIP]
+> Try submitting multiple jobs with different `N` values. Compare the time to solution between different executions.
+
+#### Exercise: parallel execution of linear combination of vectors
+
+We will follow by executing a shared- and distributed-memory parallel version of `axpy` in C, OpenMP, and MPI to understand the basic Slurm job options in the Slurm script. The example code can be found in this repository: `hands-on/ex2`. The Slurm job script is prepared to take the (global) size of the vector, `N`, as input parameter. Submit the script as follows:
+
+```bash
+sbatch submit-axpy-hybrid.sh <N>
+```
+Example of output:
+
+```bash
+$ cat axpy-hybrid-8061673.out
+y[0] = 4.000000
+Time taken for axpy execution: 0.042496 seconds
+```
+
+> [!TIP]
+> Try submitting multiple jobs with different `nodes`, `ntasks`, `cpus-per-task`. Compare the time to solution between different executions.
