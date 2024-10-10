@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 #include <time.h>
 
 #define REP 100
@@ -14,6 +15,9 @@ double dot(size_t n, double *x, double *y) {
 }
 
 int main(int argc, char **argv) {
+    double result;
+    double start, end, elapsed_time;
+
     if (argc != 2) {
         fprintf(stderr, "Usage: %s <N>\n", argv[0]);
         return 1;
@@ -35,23 +39,23 @@ int main(int argc, char **argv) {
 
     // Initialize the vectors
     for (size_t i = 0; i < n; i++) {
-        x[i] = 1.0f;
-        y[i] = 2.0f;
+        x[i] = 1.0 * sin((double)i);  // Each rank initializes its local x with trigonometric functions
+        y[i] = 0.5 * cos((double)i);  // Each rank initializes its local y with trigonometric functions
     }
 
     // Start the timer
-    clock_t start = clock();
+    start = clock();
 
     // Perform the dot product
     for(size_t i = 0; i < REP; i++) {
-        double result += dot(n, x, y);
+        result += dot(n, x, y);
     }
 
     // Stop the timer
-    clock_t end = clock();
+    end = clock();
 
     // Calculate the elapsed time in seconds
-    double elapsed_time = (double)(end - start) / CLOCKS_PER_SEC;
+    elapsed_time = (double)(end - start) / CLOCKS_PER_SEC;
 
     // Print the result and elapsed time
     printf("Dot product result: %g\n", result);

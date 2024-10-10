@@ -1,7 +1,7 @@
 #!/bin/bash
-#SBATCH -J axpy                # Job name
-#SBATCH -o axpy-%j.out         # Output log file (%j will be replaced with job ID)
-#SBATCH -e axpy-%j.err         # Error log file (%j will be replaced with job ID)
+#SBATCH -J matmul              # Job name
+#SBATCH -o matmul-%j.out       # Output log file (%j will be replaced with job ID)
+#SBATCH -e matmul-%j.err       # Error log file (%j will be replaced with job ID)
 #SBATCH --nodes=1              # Number of nodes
 #SBATCH --ntasks=1             # Total number of tasks (parallel processes)
 #SBATCH --ntasks-per-node=1    # Number of tasks per node
@@ -10,7 +10,7 @@
 
 # Check if the N parameter was provided
 if [ -z "$1" ]; then
-    echo "Usage: sbatch submit-axpy.sh <N>"
+    echo "Usage: sbatch submit-matmul.sh <N>"
     exit 1
 fi
 
@@ -19,8 +19,8 @@ module load 2023               # Load the specific environment (update as needed
 module load foss/2023a         # Load the desired compiler/toolchain (update as needed)
 
 # Compile the program
-gcc axpy.c -o axpy.out
+gcc matmul.c -o matmul.out     # Compile the matrix multiplication C program
 
 # Execute the program with N passed as an argument
-N=$1                           # Set the vector size from the first command line argument
-srun ./axpy.out $N             # Run the executable
+N=$1                           # Set the matrix size from the first command line argument
+srun ./matmul.out $N           # Run the executable
