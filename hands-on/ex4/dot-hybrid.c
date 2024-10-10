@@ -49,7 +49,7 @@ double dot(size_t local_n, double *x, double *y) {
 int main(int argc, char **argv) {
     int rank, world;
     size_t local_n, remainder, offset;
-    double *x, *y, result;
+    double *x, *y, result = 0.0;
     double start_time, end_time;
 
     // Initialize MPI
