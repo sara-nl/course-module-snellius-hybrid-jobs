@@ -42,8 +42,10 @@ int main(int argc, char **argv) {
         local_n = n / world;
     }
 
-    printf("Global length of the arrays: %ld\n", n);
-    printf("Local length of the arrays: %ld\n", local_n);
+    if (rank == 0) {
+        printf("Global length of the arrays: %ld\n", n);
+        printf("Local length of the arrays: %ld\n", local_n);
+    }
 
     // Allocate memory for the local vectors
     x = (double *)malloc(local_n * sizeof(double));
