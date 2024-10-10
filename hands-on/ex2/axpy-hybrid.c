@@ -17,6 +17,7 @@ int main(int argc, char **argv) {
     size_t n, local_n, remainder;
     double a = 2.0;
     double *x, *y;
+    double start_time, end_time;
 
     // Initialize MPI
     MPI_Init(&argc, &argv);
