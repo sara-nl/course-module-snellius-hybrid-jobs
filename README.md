@@ -231,3 +231,66 @@ Time taken for axpy execution: 0.042496 seconds
 > | 100,000,000   |            |          |           |           |          |           |           |
 > | 1,000,000,000 |            |          |           |           |          |           |           |
 > | 10,000,000,000|            |          |           |           |          |           |           |
+
+### Scalar product
+
+The scalar product, or dot product, is a crucial operation in linear algebra and is widely used in applications like machine learning, graphics, and scientific simulations. It can be expressed as:
+
+$$\text{result} = \sum_{i=0}^{n-1} x[i] \cdot y[i]$$,
+
+where `x` and `y` are vectors of length `n`, and `result` is a scalar value that represents the sum of the products of corresponding elements of `x` and `y`.
+
+The dot product kernel is a pointwise multiplication in which each element of vector `x` is multiplied by the corresponding element of vector `y`, *i.e.*, $$x[i] \cdot y[i]$$. This operation is **embarrassingly parallel** as each multiplication is independent of the others, making it highly suitable for parallelization. However, in contrast to axpy, after computing the individual products, the results must be summed together to produce the final scalar result. While this summation introduces dependencies between elements, it can still be performed in parallel using reduction techniques.
+
+In shared-memory parallelism (*e.g.*, with OpenMP), each thread can compute a portion of the dot product and use a reduction clause to combine the partial results. In distributed-memory parallelism (*e.g.*, MPI), each process computes a local sum of its assigned portion of the vectors, followed by a global reduction to combine these local sums into the final result. Indeed, the reduction operation involves a global synchronization in which threads must reduce their local sums, and also distributed processes need to broadcast and gather their local solutions.
+
+#### Exercise: sequential execution of dot product
+
+We will start by executing a sequential version of the dot product in C to understand the basic operation before moving to parallel implementations. The example code can be found in the repository: `hands-on/ex3`. The Slurm job script is prepared to take the size of the vector, `N`, as an input parameter.
+
+To submit the job, run the following command:
+
+```bash
+sbatch submit-dot.sh <N>
+```
+
+Example of output:
+
+```bash
+$ cat dot-1234567.out
+Dot product: 4999999.500000
+Time taken for dot product execution: 0.143875 seconds
+```
+
+> [!TIP]
+> Try running the code with different values of `N` to see how the time to solution scales with the size of the vectors.
+
+#### Exercise: parallel execution of dot product
+
+After understanding the sequential version, we will proceed with executing parallel versions of the dot product using both OpenMP for shared-memory parallelism and MPI for distributed-memory parallelism. Each process or thread will compute a portion of the dot product independently, followed by a reduction step to sum the partial results.
+
+The parallel implementations can be found in the repository: `hands-on/dot-hybrid`. The Slurm job script is prepared to accept the global size of the vector, `N`, as an input parameter.
+
+To submit the parallel job, run the following command:
+
+```bash
+sbatch submit-dot-hybrid.sh <N>
+```
+
+Example of output:
+
+```bash
+$ cat dot-hybrid-654321.out
+Dot product: 5000000.000000
+Time taken for dot product execution: 0.034125 seconds
+```
+
+> [!TIP]
+> Experiment with different configurations of tasks and CPUs per task to understand how the execution time changes with varying levels of parallelism. Try submitting jobs with different `ntasks` and `cpus-per-task` values. Fill out the following table with the time taken for the dot product across different vector sizes and parallel configurations.
+>| Vector Size   | Sequential | Hyb-16-1 | Hyb-128-1 | Hyb-256-1 | Hyb-1-16 | Hyb-1-128 | Hyb-2-128 |
+>|---------------|------------|----------|-----------|-----------|----------|-----------|-----------|
+>| 1,000,000     |            |          |           |           |          |           |           |
+>| 10,000,000    |            |          |           |           |          |           |           |
+>| 100,000,000   |            |          |           |           |          |           |           |
+>| 1,000,000,000 |            |          |           |           |          |           |           |
+>| 10,000,000,000|            |          |           |           |          |           |           |
