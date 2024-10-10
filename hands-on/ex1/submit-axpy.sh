@@ -5,7 +5,7 @@
 #SBATCH --nodes=1              # Number of nodes
 #SBATCH --ntasks=1             # Total number of tasks (parallel processes)
 #SBATCH --ntasks-per-node=1    # Number of tasks per node
-#SBATCH --cpus-per-task=1      # Number of CPU cores per task
+#SBATCH --cpus-per-task=16     # Number of CPU cores per task
 #SBATCH --time=01:00:00        # Time limit (hh:mm:ss)
 
 # Check if the N parameter was provided

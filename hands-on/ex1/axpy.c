@@ -2,8 +2,10 @@
 #include <stdlib.h>
 #include <time.h>
 
-void axpy(int n, float a, float *x, float *y) {
-    for (int i = 0; i < n; i++) {
+#define REP 100
+
+void axpy(size_t n, double a, double *x, double *y) {
+    for (size_t i = 0; i < n; i++) {
         y[i] = a * x[i] + y[i];
     }
 }
@@ -15,11 +17,13 @@ int main(int argc, char **argv) {
     }
 
     size_t n = (size_t)atoi(argv[1]);  // Size of the vectors from command line input
-    float a = 2.0f;                    // Scalar multiplier
+    double a = 2.0f;                    // Scalar multiplier
+
+    printf("Lenght of the arrays: %ld\n", n);
 
     // Allocate memory for the vectors
-    float *x = (float*) malloc(n * sizeof(float));
-    float *y = (float*) malloc(n * sizeof(float));
+    double *x = (double*) malloc(n * sizeof(double));
+    double *y = (double*) malloc(n * sizeof(double));
 
     // Check for successful memory allocation
     if (x == NULL || y == NULL) {
@@ -28,7 +32,7 @@ int main(int argc, char **argv) {
     }
 
     // Initialize the vectors
-    for (int i = 0; i < n; i++) {
+    for (size_t i = 0; i < n; i++) {
         x[i] = 1.0f;
         y[i] = 2.0f;
     }
@@ -37,7 +41,9 @@ int main(int argc, char **argv) {
     clock_t start = clock();
 
     // Perform the AXPY operation
-    axpy(n, a, x, y);
+    for(size_t i = 0; i < REP; i++) {
+        axpy(n, a, x, y);
+    }
 
     // Stop the timer
     clock_t end = clock();
