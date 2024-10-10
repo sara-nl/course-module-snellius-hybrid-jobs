@@ -2,10 +2,12 @@
 #include <stdlib.h>
 #include <time.h>
 
+#define REP 100
+
 // Dot product function: result = sum(x[i] * y[i])
-float dot(int n, float *x, float *y) {
-    float result = 0.0f;
-    for (int i = 0; i < n; i++) {
+double dot(size_t n, double *x, double *y) {
+    double result = 0.0f;
+    for (size_t i = 0; i < n; i++) {
         result += x[i] * y[i];
     }
     return result;
@@ -17,11 +19,13 @@ int main(int argc, char **argv) {
         return 1;
     }
 
-    size_t n = (size_t)atoi(argv[1]);  // Size of the vectors from command line input
+    const size_t n = (size_t)atoi(argv[1]);  // Size of the vectors from command line input
+
+    printf("Lenght of the arrays: %ld\n", n);
 
     // Allocate memory for the vectors
-    float *x = (float*) malloc(n * sizeof(float));
-    float *y = (float*) malloc(n * sizeof(float));
+    double *x = (double*) malloc(n * sizeof(double));
+    double *y = (double*) malloc(n * sizeof(double));
 
     // Check for successful memory allocation
     if (x == NULL || y == NULL) {
@@ -30,7 +34,7 @@ int main(int argc, char **argv) {
     }
 
     // Initialize the vectors
-    for (int i = 0; i < n; i++) {
+    for (size_t i = 0; i < n; i++) {
         x[i] = 1.0f;
         y[i] = 2.0f;
     }
@@ -39,7 +43,9 @@ int main(int argc, char **argv) {
     clock_t start = clock();
 
     // Perform the dot product
-    float result = dot(n, x, y);
+    for(size_t i = 0; i < REP; i++) {
+        double result += dot(n, x, y);
+    }
 
     // Stop the timer
     clock_t end = clock();
@@ -48,8 +54,8 @@ int main(int argc, char **argv) {
     double elapsed_time = (double)(end - start) / CLOCKS_PER_SEC;
 
     // Print the result and elapsed time
-    printf("Dot product result: %f\n", result);
-    printf("Time taken for dot product execution: %f seconds\n", elapsed_time);
+    printf("Dot product result: %g\n", result);
+    printf("Time taken for dot product execution: %g seconds\n", elapsed_time);
 
     // Free the allocated memory
     free(x);

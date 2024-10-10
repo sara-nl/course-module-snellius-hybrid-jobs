@@ -16,8 +16,8 @@ int main(int argc, char **argv) {
         return 1;
     }
 
-    size_t n = (size_t)atoi(argv[1]);  // Size of the vectors from command line input
-    double a = 2.0f;                    // Scalar multiplier
+    const size_t n = (size_t)atoi(argv[1]);  // Size of the vectors from command line input
+    const double a = 2.0f;                    // Scalar multiplier
 
     printf("Lenght of the arrays: %ld\n", n);
 
